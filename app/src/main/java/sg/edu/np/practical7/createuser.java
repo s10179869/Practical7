@@ -1,14 +1,10 @@
 package sg.edu.np.practical7;
 
-import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,24 +35,25 @@ public class createuser extends AppCompatActivity {
         EditText user = findViewById(R.id.etName);
         EditText pass = findViewById(R.id.etPassword);
         String userInput = user.getText().toString();
-        String passInput = user.getText().toString();
+        String passInput = pass.getText().toString();
 
-        Pattern userPattern = Pattern.compile("^[0-9A-Za-z]*.{6,12}$");
-        Pattern passPattern = Pattern.compile("^(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%^&+=]).*$");
+        Pattern userPattern = Pattern.compile("^[A-Za-z0-9]{6,12}$");
         Matcher userMatcher = userPattern.matcher(userInput);
-        Matcher passMatcher = passPattern.matcher(userInput);
+        Pattern passPattern = Pattern.compile("^(?=.*[A-Z])(?=.*[0-9])(?=.*\\W).*$");
+        Matcher passMatcher = passPattern.matcher(passInput);
 
         Toast ttValid = Toast.makeText(this, "Valid", Toast.LENGTH_SHORT);
         Toast ttInvalid = Toast.makeText(this, "Invalid", Toast.LENGTH_SHORT);
 
 
-        if (userMatcher.matches() == true && passMatcher.matches() == true )
+        if (userMatcher.matches() && passMatcher.matches())
         {
 
             SharedPreferences.Editor et = getSharedPreferences("userInfo", MODE_PRIVATE).edit();
             et.putString("Username", userInput);
             et.putString("Password", passInput);
             et.apply();
+
             Account a = new Account(userInput, passInput);
             db.addAccount(a);
             ttValid.show();
