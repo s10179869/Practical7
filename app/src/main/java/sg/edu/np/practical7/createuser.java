@@ -20,6 +20,7 @@ public class createuser extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_createuser);
+        db = new Dbhandler(this, null, null, 1);
     }
 
     public void onCancel(View v)
@@ -57,6 +58,9 @@ public class createuser extends AppCompatActivity {
             Account a = new Account(userInput, passInput);
             db.addAccount(a);
             ttValid.show();
+
+            Intent in = new Intent(createuser.this, MainActivity.class);
+            startActivity(in);
         }
         else
             ttInvalid.show();

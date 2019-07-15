@@ -44,8 +44,7 @@ public class Dbhandler extends SQLiteOpenHelper {
     }
 
     public Account findAccount(String username){
-        String query = "SELECT * FROM " + ACCOUNTS + " WHERE "
-                + COLUMN_USERNAME + " =\"" + username +"\"";
+        String query = "SELECT * FROM " + ACCOUNTS + " WHERE "+ COLUMN_USERNAME + " = \"" + username +"\"";
         Account a;
 
         SQLiteDatabase db = this.getWritableDatabase();
